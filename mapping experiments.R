@@ -1,6 +1,7 @@
 library(rgdal)
 library(sp)
 library(maptools)
+library(ggmap)
 #
 # peeling out the geospatial information for plotting
 geo_data <- select(clean_aussie_data, sample_id, easting, northing, zone)
@@ -38,11 +39,30 @@ colnames(spatial_52_ll@coords)[colnames(spatial_52_ll@coords) == "Northing"]<- "
 colnames(spatial_53_ll@coords)[colnames(spatial_53_ll@coords) == "Easting"]<- "Longitude" 
 colnames(spatial_53_ll@coords)[colnames(spatial_53_ll@coords) == "Northing"]<- "Latitude"
 #
-# tried a number of things to re-merge the data, but gave up
+#  re-merge the data
+geo_data_52_ll <- as.data.frame(spatial_52_ll)
+geo_data_52_ll <- rename(geo_data_52_ll, sample_id = geo_data_52.sample_id)
+geo_data_52_ll <- select(geo_data_52_ll, -geo_data_52.entry_num)
+geo_data_53_ll <- as.data.frame(spatial_53_ll)
+geo_data_53_ll <- rename(geo_data_53_ll, sample_id = geo_data_53.sample_id)
+geo_data_53_ll <- select(geo_data_53_ll, -geo_data_53.entry_num)
+
+# recombine
+geo_data_ll <- rbind(geo_data_52_ll, geo_data_53_ll)
+
 #spatial_ll <- spRbind(test_spatial_52_ll, test_spatial_53_ll)
+
 #some plots x and y bounds picked off google maps to give some room
-y_bounds <- c(-15.5777440, -10.808605)
-x_bounds <- c(128.915038, 134.184663)
-plot_52 <- plot(spatial_52_ll, xlim = x_bounds, ylim = y_bounds )
-plot_53 <- plot(spatial_53_ll, xlim = x_bounds, ylim = y_bounds, add=TRUE )
-oz(add = TRUE)
+#y_bounds <- c(-15.5777440, -10.808605)
+#x_bounds <- c(128.915038, 134.184663)
+#plot_52 <- plot(spatial_52_ll, xlim = x_bounds, ylim = y_bounds )
+#plot_53 <- plot(spatial_53_ll, add=TRUE )
+#oz(add = TRUE)
+
+northern_terr <- get_map("Darwin", zoom = 7,
+                     source = "stamen", maptype = "toner")
+c <- ggmap(northern_terr, extent = "device") +
+  geom_point(data = geo_data_ll,
+             aes(x = Longitude, y = Latitude), size = 8)
+c
+
