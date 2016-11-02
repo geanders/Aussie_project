@@ -63,6 +63,6 @@ northern_terr <- get_map("Darwin", zoom = 7,
                      source = "stamen", maptype = "toner")
 c <- ggmap(northern_terr, extent = "device") +
   geom_point(data = geo_data_ll,
-             aes(x = Longitude, y = Latitude), size = 8)
+             aes(x = Longitude, y = Latitude), size = 2, color = "red")
 c
 
