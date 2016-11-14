@@ -53,11 +53,25 @@ geo_aussie_data <- left_join(geo_data_ll, clean_aussie_data, by = "entry_num")
 # drop no-longer-needed geospatial data
 #geo_aussie_data <- select(-easting, -northing, -zone)
 
-northern_terr <- get_map("Darwin", zoom = 7,
-                     source = "stamen", maptype = "toner")
+northern_terr <- get_map("Jabiru", zoom = 9,
+                     source = "google", maptype = "hybrid")
 c <- ggmap(northern_terr, extent = "device") +
   geom_point(data = geo_data_ll,
              aes(x = Longitude, y = Latitude), 
              size = .5, color = "red", alpha = 0.25)
 c
+c <- ggmap(northern_terr, extent = "device") +
+  geom_point(data = geo_data_ll, aes(x = Longitude, y = Latitude), size = .0001, color = "red")+
+  geom_point(data = river, aes(x = long, y = lat, color=id), size = .00001)+
+  coord_cartesian(xlim=c(130, 135),ylim=c(-15, -10))+
+  geom_point(data=rivermouth, aes(x=long, y = lat), size=.001,color="blue")
 
+
+c
+
+
+
+test <- ggmap(northern_terr, extent = "device") +
+  geom_point(data = geo_data_ll, aes(x = Longitude, y = Latitude), size = .0001, color = "red")+
+  geom_point(data = river, aes(x = long, y = lat), size = .00001, color="blue")+
+ geom_point(data=rivermouth, aes(x=long, y = lat), size=.001,color="blue")
