@@ -8,10 +8,10 @@ library(foreign)
 library("maptools")
 
 ###For the river lines
-river<-readShapeLines("AUS_water_lines_dcw.shp", proj4string=CRS("+proj=longlat"))
+river<-readShapeLines("AUS_water_lines_dcw", proj4string=CRS("+proj=longlat"))
 river<-tidy(river)
  river<-filter(river,river$lat < -12 & river$lat > -13.7)
-  river<-filter(river,river$long < 133 & river$long > 132.2)
+  river<-filter(river,river$long < 133.5 & river$long > 132.2)
   river$id<-as.double(river$id)
   
  #For the River mouth
