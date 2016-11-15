@@ -75,3 +75,4 @@ test <- ggmap(northern_terr, extent = "device") +
   geom_point(data = geo_data_ll, aes(x = Longitude, y = Latitude), size = .0001, color = "red")+
   geom_point(data = river, aes(x = long, y = lat), size = .00001, color="blue")+
  geom_point(data=rivermouth, aes(x=long, y = lat), size=.001,color="blue")
+

@@ -1,25 +1,26 @@
 shinyUI(fluidPage(
-  titlePanel("Concentrations of Heavy Metals and Radionuclides near Australia's
-             Ranger Mine")
+  titlePanel("Australia's Ranger Uranium Mine: Measuring Heavy Metals and Radionuclide 
+             Presence in the Surrouding Environment"),
   sidebarLayout(
-    sidebarPanel(h2("Display on Map"),
-                 br(),
-                 img(src = "Ranger200.jpg", height = 72, width = 72),
-                 p("World Nuclear image of the Ranger Treatment plant, with mine
-                   pit beyond")
-                checkboxGroupInput(inputID = "Substrate",
-                label = h3("Select a Substrate"),
-                choices = list("Choice 1" = Terrestrial_animals, 
-                               "Choice 2" = Terrestrial_plants,
-                               "Choice 3" = Terrestrial_soil,
-                               "Choice 4" = Freshwater_animals,
-                               "Choice 5" = Fish,
-                               "Choice 6" = Mollusc,
-                               "Choice 7" = Freshwater_sediment,
-                               "Choice 8" = Freshwater_vascularplant,
-                               "Choice 9" = Water),
-                value = dataframe$substrate_name),
-    mainPanel("Map of Sample Locations",
-              plotOutput("aussie_map"))
+    sidebarPanel(width = 5,
+                h4("Where do we see metals and radionuclides?"),
+                 img(src = "Ranger2005.jpg", height = 100, width = 250),
+                 h6("Image of the Ranger Treatment plant, with mine
+                   pit beyond (source www.world-nuclear.org)"),
+                br(),
+                checkboxGroupInput("Substrate",
+                                  label = h4("Substrate"),
+                choices = list("Terrestrial Animals" = "Choice 1", 
+                               "Terrestrial Plants" = "Choice 2",
+                               "Terrestrial soil" = "Choice 3",
+                               "Freshwater Animals" = "Choice 4",
+                              "Fish" = "Choice 5",
+                               "Mollusc" = "Choice 6",
+                               "Freshwater Sediment" = "Choice 7",
+                              "Freshwater Plant" = "Choice 8",
+                               "Water" = "Choice 9"),
+                select = 1)),
+    mainPanel("Map of Alligator Rivers Area"
+              #plotOutput())
   ))
-)
+))
