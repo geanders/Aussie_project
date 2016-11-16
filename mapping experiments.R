@@ -63,7 +63,6 @@ c
 c <- ggmap(northern_terr, extent = "device") +
   geom_point(data = geo_data_ll, aes(x = Longitude, y = Latitude), size = .0001, color = "red")+
   geom_point(data = river, aes(x = long, y = lat, color=id), size = .00001)+
-  coord_cartesian(xlim=c(130, 135),ylim=c(-15, -10))+
   geom_point(data=rivermouth, aes(x=long, y = lat), size=.001,color="blue")
 
 
