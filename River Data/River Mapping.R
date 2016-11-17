@@ -6,10 +6,11 @@ library("plyr")
 library(broom)
 library(foreign)
 library("maptools")
+library(leaflet)
 
 ###For the river lines
-rivershape<-readShapeLines("AUS_water_lines_dcw", proj4string=CRS("+proj=longlat"))
-rivershape@
+rivershape<-readShapeLines("River Data/AUS_water_lines_dcw", proj4string=CRS("+proj=longlat"))
+
   
 river<-tidy(rivershape)
  river<-filter(river,river$lat < -12 & river$lat > -13.7)
