@@ -6,6 +6,7 @@ library(rgdal)
 library(sp)
 library(maptools)
 library(ggmap)
+library(sp)
 #
 # peeling out the geospatial information for plotting
 #geo_data <- select(clean_aussie_data, sample_id, easting, northing, zone)

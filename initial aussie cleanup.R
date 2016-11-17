@@ -1,7 +1,7 @@
 library(tidyverse)
 library(lubridate)
 library(stringr)
-aussie_data <- read_csv("mmc1.csv")
+aussie_data <- read_csv("data_raw/mmc1.csv")
 
 # initial bits of cleanup
 # dropping some non-useful columns - leaves 5060 obs. of 53 variables
