@@ -6,9 +6,11 @@ library("plyr")
 library(broom)
 library(foreign)
 library("maptools")
+library(leaflet)
 
 ###For the river lines
 rivershape<-readShapeLines("River Data/AUS_water_lines_dcw", proj4string=CRS("+proj=longlat"))
+<<<<<<< HEAD
 ex_map<-rivershape[str_detect(rivershape@data$NAM, "ALLIGATOR"), ]
 
 
@@ -16,6 +18,9 @@ rivershape@bbox[1,1] <- 130
 rivershape@bbox[1,2] <- 135
 rivershape@bbox[2,1] <- -14
 rivershape@bbox[2,2] <- -11
+=======
+
+>>>>>>> d3ceeefd0922a27ed9264c47bec9ddb2ecf88274
   
 river<-tidy(rivershape)
  river<-filter(river,river$lat < -12 & river$lat > -13.7)
