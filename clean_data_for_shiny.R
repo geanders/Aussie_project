@@ -45,7 +45,9 @@ test_geo <- clean_geo %>% mutate(sample_type = ifelse(wildlife_group %in% c("Ter
                                    sample_type = ifelse(wildlife_group %in% "Freshwater-sediment", "Freshwater Sediment", sample_type),
                                    sample_type = ifelse(wildlife_group %in% "Freshwater-Vascular Plant", "Freshwater Plant", sample_type),
                                    sample_type = ifelse(wildlife_group %in% "Freshwater-Water", "Water", sample_type))
-      
+# need to get the distance from the mine, but have to make the data frame piped above
+# geo_aussie_data
+geo_shiny_data<-mutate(geo_aussie_data, distance = sqrt((Latitude - -12.6848)^2+(Longitude - 132.9107)^2))      
 
 
 
