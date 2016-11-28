@@ -17,12 +17,16 @@ library(leaflet)
 # from another script file can execute the shiny app by using the runApp 
 # command on the directory name : runApp("shiny_app")
 
-#load(mapshapefile)
-#load(dataframe)
+
+# need to run the clean up script to generate clean_aussie_data
+# need to run the river mapping emailed script to generate river and rivermouth data frames
+load(geo_aussie_data)
+load(river)
+load(rivermouth)
 shinyServer(function(input, output, session) {
- # points <- reactive({
-   # dataframe[dataframe$sample_type == input$Substrate &
-              #  dataframe$year == input$slider1]
+ points <- reactive({
+   geo_aussie_data[geo_aussie_data$sample_type == input$Substrate &
+              geo_aussie_data$collection_date == input$slider1]
   })
  # popup_info <- reactive({
 #                       paste0("<b>Copper:</b>  ", 
