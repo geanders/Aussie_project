@@ -12,6 +12,7 @@ library(sp)
 #geo_data <- select(clean_aussie_data, sample_id, easting, northing, zone)
 # filter out a few NAs
 geo_data <- subset(clean_aussie_data, easting != "" | northing != "")
+#
 # the geo_data is in UTM coordinates, need to convert to lat-long
 # the lat-long conversion requires that the data be split between the UTM
 # zones.  In this case, 52S and 53S.  From here on everything is split.
@@ -21,6 +22,7 @@ coords_52 <- cbind(Easting = as.numeric(as.character(geo_data_52$easting)),
                 Northing = as.numeric(as.character(geo_data_52$northing)))
 coords_53 <- cbind(Easting = as.numeric(as.character(geo_data_53$easting)),
                    Northing = as.numeric(as.character(geo_data_53$northing)))
+#
 # Create the SpatialPointsDataFrame
 spatial_52 <- SpatialPointsDataFrame(coords_52, data = 
                                          data.frame(geo_data_52$entry_num), 
@@ -28,32 +30,32 @@ spatial_52 <- SpatialPointsDataFrame(coords_52, data =
 spatial_53 <- SpatialPointsDataFrame(coords_53, data = 
                                             data.frame(geo_data_53$entry_num), 
                                           proj4string = CRS("+init=epsg:32753"))
-
+#
 # Convert to Lat Long
 # Convert from Eastings and Northings to Latitude and Longitude
 spatial_52_ll <- spTransform(spatial_52, CRS("+init=epsg:4326"))
 spatial_53_ll <- spTransform(spatial_53, CRS("+init=epsg:4326"))
-
+#
 # we also need to rename the columns 
 colnames(spatial_52_ll@coords)[colnames(spatial_52_ll@coords) == "Easting"]<- "Longitude" 
 colnames(spatial_52_ll@coords)[colnames(spatial_52_ll@coords) == "Northing"]<- "Latitude"
 colnames(spatial_53_ll@coords)[colnames(spatial_53_ll@coords) == "Easting"]<- "Longitude" 
 colnames(spatial_53_ll@coords)[colnames(spatial_53_ll@coords) == "Northing"]<- "Latitude"
 #
-#  re-merge the data
+# convert back to data frames
 geo_data_52_ll <- as.data.frame(spatial_52_ll)
 geo_data_52_ll <- rename(geo_data_52_ll, entry_num = geo_data_52.entry_num)
 geo_data_53_ll <- as.data.frame(spatial_53_ll)
 geo_data_53_ll <- rename(geo_data_53_ll, entry_num = geo_data_53.entry_num)
-
-# recombine
+#
+# merge the two lat-long data sets into one, then join back into original
+# cleaned data set, producing a new data frame
 geo_data_ll <- rbind(geo_data_52_ll, geo_data_53_ll)
-#geo_data_ll$entry_num <- as.character(geo_data_ll$entry_num)
 geo_aussie_data <- left_join(geo_data_ll, clean_aussie_data, by = "entry_num")
 
-# drop no-longer-needed geospatial data
-#geo_aussie_data <- select(-easting, -northing, -zone)
-
+#
+# grab a map and plot.  This can be refined/removed once we are ready for 
+# shiny and other mapping subroutines
 northern_terr <- get_map("Jabiru", zoom = 9,
                      source = "google", maptype = "hybrid")
 c <- ggmap(northern_terr, extent = "device") +
