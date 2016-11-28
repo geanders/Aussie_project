@@ -1,6 +1,12 @@
 library(tidyverse)
 library(lubridate)
 library(stringr)
+library(rgdal)
+library(sp)
+library(maptools)
+library(ggmap)
+library(sp)
+
 # guess_max set because of parsing errors
 aussie_data <- read_csv("data_raw/mmc1.csv", guess_max = 5000)
 
@@ -103,3 +109,55 @@ clean_aussie_data <- clean_aussie_data%>%
     wildlife_group == "Freshwater-Vascular Plant" ~ "Freshwater Plant",
     wildlife_group == "Freshwater-Water" ~ "Water",
     TRUE ~ "NA"))
+# 
+# Filter out the 4 results
+# that don't have locations, converts the UTM coords into lat-long, and ends up
+# with a dataset called geo_aussie_data. 
+
+# peeling out the geospatial information for plotting
+#geo_data <- select(clean_aussie_data, sample_id, easting, northing, zone)
+# filter out a few NAs
+geo_data <- subset(clean_aussie_data, easting != "" | northing != "")
+#
+# the geo_data is in UTM coordinates, need to convert to lat-long
+# the lat-long conversion requires that the data be split between the UTM
+# zones.  In this case, 52S and 53S.  From here on everything is split.
+geo_data_52 <- subset(geo_data, zone == "52S")
+geo_data_53 <- subset(geo_data, zone == "53S")
+coords_52 <- cbind(Easting = as.numeric(as.character(geo_data_52$easting)),
+                   Northing = as.numeric(as.character(geo_data_52$northing)))
+coords_53 <- cbind(Easting = as.numeric(as.character(geo_data_53$easting)),
+                   Northing = as.numeric(as.character(geo_data_53$northing)))
+#
+# Create the SpatialPointsDataFrame
+spatial_52 <- SpatialPointsDataFrame(coords_52, data = 
+                                       data.frame(geo_data_52$entry_num), 
+                                     proj4string = CRS("+init=epsg:32752"))
+spatial_53 <- SpatialPointsDataFrame(coords_53, data = 
+                                       data.frame(geo_data_53$entry_num), 
+                                     proj4string = CRS("+init=epsg:32753"))
+#
+# Convert to Lat Long
+# Convert from Eastings and Northings to Latitude and Longitude
+spatial_52_ll <- spTransform(spatial_52, CRS("+init=epsg:4326"))
+spatial_53_ll <- spTransform(spatial_53, CRS("+init=epsg:4326"))
+#
+# we also need to rename the columns 
+colnames(spatial_52_ll@coords)[colnames(spatial_52_ll@coords) == "Easting"]<- "Longitude" 
+colnames(spatial_52_ll@coords)[colnames(spatial_52_ll@coords) == "Northing"]<- "Latitude"
+colnames(spatial_53_ll@coords)[colnames(spatial_53_ll@coords) == "Easting"]<- "Longitude" 
+colnames(spatial_53_ll@coords)[colnames(spatial_53_ll@coords) == "Northing"]<- "Latitude"
+#
+# convert back to data frames
+geo_data_52_ll <- as.data.frame(spatial_52_ll)
+geo_data_52_ll <- dplyr::rename(geo_data_52_ll, entry_num = geo_data_52.entry_num)
+geo_data_53_ll <- as.data.frame(spatial_53_ll)
+geo_data_53_ll <- dplyr::rename(geo_data_53_ll, entry_num = geo_data_53.entry_num)
+#
+# merge the two lat-long data sets into one, then join back into original
+# cleaned data set, producing a new data frame
+geo_data_ll <- rbind(geo_data_52_ll, geo_data_53_ll)
+geo_aussie_data <- left_join(geo_data_ll, clean_aussie_data, by = "entry_num")
+#
+# save geo_aussie_data for use elsewhere
+save(geo_aussie_data, file = "./shiny_app/geo_aussie_data.Rdata")
