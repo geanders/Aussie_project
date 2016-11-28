@@ -15,11 +15,9 @@ library(leaflet)
 # rivermouthshape<-readShapeLines("CopyOfRiver Data/AUS_water_areas_dcw.shp", 
                                # proj4string=CRS("+proj=longlat"))
 # from another script file can execute the shiny app by using the runApp 
-# command on the directory name. Example from within our:
-# runApp("shiny_app")
-# will need to put dataframe to use here- load()
-# or refer to mapping function script etc- source() 
-#load(shapefile)
+# command on the directory name : runApp("shiny_app")
+
+#load(mapshapefile)
 #load(dataframe)
 shinyServer(function(input, output, session) {
  # points <- reactive({
