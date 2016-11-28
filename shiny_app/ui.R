@@ -24,7 +24,8 @@ shinyUI(fluidPage(
                             min = 1976, max = 2015, value = 1))
                             )),
                column(6, position = "right", 
-                    h4("Map of Alligator Rivers Sample Sites"),
+                   h4("Map of Alligator Rivers Sample Sites"),
+                  
                     leafletOutput("RiverMap")))
                     
            ))

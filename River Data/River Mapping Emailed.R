@@ -36,6 +36,10 @@ rivermouth<-tidy(rivermouthshape)
 rivermouth<-filter(rivermouth, rivermouth$lat < -12 & rivermouth$lat > -12.75)
 rivermouth<-filter(rivermouth, rivermouth$long < 133 & rivermouth$long > 132.4)
 
+save(rivermouth, file = "./shiny_app/rivermouth.Rdata")
+save(river, file = "./shiny_app/river.Rdata")
+
+
 mape <- leaflet() %>%
   addProviderTiles("Stamen.Watercolor")
 for(t in unique(test$id)){

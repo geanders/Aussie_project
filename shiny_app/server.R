@@ -20,32 +20,33 @@ library(leaflet)
 
 # need to run the clean up script to generate clean_aussie_data
 # need to run the river mapping emailed script to generate river and rivermouth data frames
-load(geo_aussie_data)
-load(river)
-load(rivermouth)
+load("geo_aussie_data.Rdata")
+load("river.Rdata")
+load("rivermouth.Rdata")
 shinyServer(function(input, output, session) {
  points <- reactive({
    geo_aussie_data[geo_aussie_data$sample_type == input$Substrate &
-              geo_aussie_data$collection_date == input$slider1]
+              geo_aussie_data$collection_date == input$slider1, ]
   })
- # popup_info <- reactive({
-#                       paste0("<b>Copper:</b>  ", 
-          #             points$Cu, "<br/>",
-           #            "<b>Arsenic:</b>  ",
-            #           points$As, "<br/>",
-             #          "<b>Mercury:</b>  ",
-              #         points$Hg, "<br/>",
-               #        "<b>Lead:</b>  ",
-                #       points$Pb, "<br/>",
-                 #      "<b>Radionuclides:</b>  ", 
-                  #     points$Radionuclides)
-# })
-# output$RiverMap <- renderLeaflet({
-  #  leaflet()%>%
-   #   addProviderTiles("Stamen.Watercolor")%>%
-    #  addPolylines(data=rivershape)%>%
-     # addPolylines(data=rivermouthshape)%>%
-      # addCircleMarkers(data=points, popup=popup_info)
-    #})
+ popup_info <- reactive({
+                      paste0("<b>Copper:</b>  ", 
+                       points$Cu, "<br/>",
+                      "<b>Arsenic:</b>  ",
+                      points$As, "<br/>",
+                       "<b>Mercury:</b>  ",
+                       points$Hg, "<br/>",
+                       "<b>Lead:</b>  ",
+                       points$Pb, "<br/>",
+                       "<b>Radionuclides:</b>  ", 
+                       points$radionuclides)
+})
+
+output$RiverMap <- renderLeaflet({
+    leaflet()%>%
+     addProviderTiles("Stamen.Watercolor")%>%
+     # addPolylines(data=river)%>%
+     # addPolylines(data=rivermouth)%>%
+      addCircleMarkers(data=points(), popup=popup_info())
+    })
    
-#})
+})
