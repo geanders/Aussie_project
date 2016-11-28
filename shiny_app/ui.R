@@ -1,6 +1,6 @@
 shinyUI(fluidPage(
   titlePanel("Australia's Ranger Uranium Mine: Measuring Heavy Metals and Radionuclide 
-             Presence in the Surrouding Environment"),
+             Presence in the Surrounding Environment"),
            fluidRow(
              column(6,
                   img(src = "Ranger2005.jpg", height = 100, width = 375),
