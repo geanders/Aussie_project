@@ -44,9 +44,9 @@ shinyServer(function(input, output, session) {
 output$RiverMap <- renderLeaflet({
     leaflet()%>%
      addProviderTiles("Stamen.Watercolor")%>%
-     # addPolylines(data=river)%>%
-     # addPolylines(data=rivermouth)%>%
-      addCircleMarkers(data=points(), popup=popup_info())
+     addPolylines(data=river_map)%>%
+      addPolylines(data=river_mouthmap)%>%
+     addCircleMarkers(data=points(), popup=popup_info())
     })
    
 })

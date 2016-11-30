@@ -39,6 +39,10 @@ rivermouth<-filter(rivermouth, rivermouth$long < 133 & rivermouth$long > 132.4)
 save(rivermouth, file = "./shiny_app/rivermouth.Rdata")
 save(river, file = "./shiny_app/river.Rdata")
 
+# save the other non data frame files to shiny app page
+save(river_map, file = "./shiny_app/river_map.Rdata")
+save(river, file = "./shiny_app/river_mouthmap.Rdata")
+
 
 mape <- leaflet() %>%
   addProviderTiles("Stamen.Watercolor")
