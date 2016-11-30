@@ -43,5 +43,15 @@ save(river, file = "./shiny_app/river.Rdata")
 save(river_map, file = "./shiny_app/river_map.Rdata")
 save(river_mouthmap, file = "./shiny_app/river_mouthmap.Rdata")
 
+library(geosphere)
 
+# Preston's distance script sent on 11/30/16 via email
+Distance = vector(,nrow(geo_aussie_data))
+for(i in 1:nrow(geo_aussie_data)){
+  Distance[i]=distm(c(geo_aussie_data$Longitude[i], geo_aussie_data$Latitude[i]), 
+                    c( 132.9107,-12.6848), 
+                    fun = distHaversine)
+}
+geo_aussie_data<-mutate(geo_aussie_data,
+                        Distance = Distance)
   

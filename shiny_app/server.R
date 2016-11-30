@@ -25,11 +25,11 @@ load("river_map.Rdata")
 load("river_mouthmap.Rdata")
 
 shinyServer(function(input, output, session) {
- points <- reactive({
+ points <- eventReactive({
    geo_aussie_data[geo_aussie_data$sample_type == input$Substrate &
               geo_aussie_data$collection_date == input$slider1, ]
   })
- popup_info <- reactive({
+ popup_info <- eventReactive({
                       paste0("<b>Copper:</b>  ", 
                        points$Cu, "<br/>",
                       "<b>Arsenic:</b>  ",
@@ -46,8 +46,8 @@ output$RiverMap <- renderLeaflet({
     leaflet()%>%
      addProviderTiles("Stamen.Watercolor")%>%
      addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap)%>%
-    addCircleMarkers(data=points(),popup=popup_info())
+      addPolylines(data=river_mouthmap)#%>%
+    # addCircleMarkers(data=points(),popup=popup_info())
     })
    
 })
