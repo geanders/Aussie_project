@@ -21,8 +21,9 @@ library(leaflet)
 # need to run the clean up script to generate clean_aussie_data
 # need to run the river mapping emailed script to generate river and rivermouth data frames
 load("geo_aussie_data.Rdata")
-load("river.Rdata")
-load("rivermouth.Rdata")
+load("river_map.Rdata")
+load("river_mouthmap.Rdata")
+
 shinyServer(function(input, output, session) {
  points <- reactive({
    geo_aussie_data[geo_aussie_data$sample_type == input$Substrate &
@@ -46,7 +47,7 @@ output$RiverMap <- renderLeaflet({
      addProviderTiles("Stamen.Watercolor")%>%
      addPolylines(data=river_map)%>%
       addPolylines(data=river_mouthmap)%>%
-     addCircleMarkers(data=points(), popup=popup_info())
+    addCircleMarkers(data=points(),popup=popup_info())
     })
    
 })
