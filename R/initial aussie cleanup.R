@@ -110,10 +110,6 @@ clean_aussie_data <- clean_aussie_data%>%
     wildlife_group == "Freshwater-Water" ~ "Water",
     TRUE ~ "NA"))
 # 
-# Filter out the 4 results
-# that don't have locations, converts the UTM coords into lat-long, and ends up
-# with a dataset called geo_aussie_data. 
-
 # peeling out the geospatial information for plotting
 #geo_data <- select(clean_aussie_data, sample_id, easting, northing, zone)
 # filter out a few NAs
