@@ -8,7 +8,7 @@ shinyUI(fluidPage(
                        pit (source www.world-nuclear.org)"),
                     fluidRow(
                       column(12, h4(em("Where and when do we see metals and radionuclides?"))),
-                      column(4, selectInput("Substrate",
+                      column(6, selectInput("Substrate",
                              label = h5("Sample Type:"),
                             choices = list("Terrestrial Animals" = "Choice 1", 
                             "Terrestrial Plants" = "Choice 2",
@@ -19,7 +19,7 @@ shinyUI(fluidPage(
                         "Freshwater Sediment" = "Choice 7",
                             "Freshwater Plant" = "Choice 8",
                              "Water" = "Choice 9"))),
-                      column(4, sliderInput("slider1",
+                      column(6, sliderInput("slider1",
                                             label = h5("Year of Sampling:"),
                             min = 1976, max = 2015, value = 1))
                             )),

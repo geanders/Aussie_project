@@ -1,13 +1,6 @@
 library(shiny)
-library(tidyverse)
-library("rgdal")
-library("maptools")
-library("ggplot2")
-library("plyr")
-library(broom)
-library(foreign)
-library("maptools")
 library(leaflet)
+library(tidyverse)
 
 # source("shiny mapping experiments.R")
 # rivershape<-readShapeLines("CopyOfRiver Data/AUS_water_lines_dcw", 
@@ -23,31 +16,43 @@ library(leaflet)
 load("geo_aussie_data.Rdata")
 load("river_map.Rdata")
 load("river_mouthmap.Rdata")
+geo_aussie_shiny <- geo_aussie_data %>% 
+  mutate(sample_year = year(collection_date)) %>%
+  select(sample_type, sample_year, Longitude, Latitude, Cu, As, 
+      Hg, Pb, radionuclides)
 
 shinyServer(function(input, output, session) {
- points <- eventReactive({
-   geo_aussie_data[geo_aussie_data$sample_type == input$Substrate &
-              geo_aussie_data$collection_date == input$slider1, ]
+  filteredData <- reactive({
+    geo_aussie_shiny[geo_aussie_shiny$sample_type == input$Substrate &
+                      geo_aussie_shiny$sample_year >= input$slider1, ]
   })
- popup_info <- eventReactive({
-                      paste0("<b>Copper:</b>  ", 
-                       points$Cu, "<br/>",
-                      "<b>Arsenic:</b>  ",
-                      points$As, "<br/>",
-                       "<b>Mercury:</b>  ",
-                       points$Hg, "<br/>",
-                       "<b>Lead:</b>  ",
-                       points$Pb, "<br/>",
-                       "<b>Radionuclides:</b>  ", 
-                       points$radionuclides)
-})
+# points <- filteredData 
+# popup_info <- eventReactive({
+                     # paste0("<b>Copper:</b>  ", 
+                      # points$Cu, "<br/>",
+                      #"<b>Arsenic:</b>  ",
+                      #points$As, "<br/>",
+                       #"<b>Mercury:</b>  ",
+                       #points$Hg, "<br/>",
+                       #"<b>Lead:</b>  ",
+                       #points$Pb, "<br/>",
+                       #"<b>Radionuclides:</b>  ", 
+                       #points$radionuclides)
+#})
 
 output$RiverMap <- renderLeaflet({
-    leaflet()%>%
-     addProviderTiles("Stamen.Watercolor")%>%
-     addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap)#%>%
-    # addCircleMarkers(data=points(),popup=popup_info())
-    })
-   
+    leaflet(geo_aussie_shiny)
 })
+
+observe({
+  leafletProxy("RiverMap", data = filteredData()) %>%
+ clearShapes() %>%
+    addProviderTiles("Stamen.Watercolor")%>%
+    addPolylines(data=river_map)%>%
+    addPolylines(data=river_mouthmap) %>%
+    addCircleMarkers(data=filteredData())
+})
+
+})
+   
+
