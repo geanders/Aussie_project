@@ -41,7 +41,7 @@ shinyServer(function(input, output, session) {
 #})
 
 output$RiverMap <- renderLeaflet({
-    leaflet(geo_aussie_shiny)
+    leaflet(geo_aussie_shiny) %>% setView(132.9107, -12.6848, zoom = 7)
 })
 
 observe({

@@ -28,45 +28,41 @@ leaflet()%>%
     addMarkers(data=points,popup=popup_info)
 
 
-# what shiny has in it on 11/30/16 AM:
-library(shiny)
-library(tidyverse)
-library("rgdal")
-library("maptools")
-library("ggplot2")
-library("plyr")
-library(broom)
-library(foreign)
-library("maptools")
-library(leaflet)
+# everything from rachel's practice script on 12/1
+setwd("/Users/Chloe/Desktop/Rprog/FinalProject_Rclass/shiny_app")
 load("geo_aussie_data.Rdata")
 load("river_map.Rdata")
 load("river_mouthmap.Rdata")
+library(dplyr)
+geo_aussie_shiny <- geo_aussie_data %>% 
+  mutate(sample_year = year(collection_date)) %>%
+  select(sample_type, sample_year, Longitude, Latitude, Cu, As, 
+         Hg, Pb, radionuclides) %>% 
+  group_by(Longitude, Latitude, sample_type, sample_year) %>%
+  summarize(Cu = max(Cu, na.rm = TRUE), 
+            As = max(As, na.rm = TRUE),
+            Hg = max(Hg, na.rm = TRUE), 
+            Pb = max(Pb, na.rm = TRUE), 
+            radionuclides = max(radionuclides, na.rm = TRUE)) %>%
+  ungroup(Longitude, Latitude, sample_type, sample_year)
 
-shinyServer(function(input, output, session) {
-  points <- eventReactive({
-    geo_aussie_data[geo_aussie_data$sample_type == input$Substrate &
-                      geo_aussie_data$collection_date == input$slider1, ]
-  })
-  popup_info <- eventReactive({
-    paste0("<b>Copper:</b>  ", 
-           points$Cu, "<br/>",
-           "<b>Arsenic:</b>  ",
-           points$As, "<br/>",
-           "<b>Mercury:</b>  ",
-           points$Hg, "<br/>",
-           "<b>Lead:</b>  ",
-           points$Pb, "<br/>",
-           "<b>Radionuclides:</b>  ", 
-           points$radionuclides)
-  })
-  
-  output$RiverMap <- renderLeaflet({
-    leaflet()%>%
-      addProviderTiles("Stamen.Watercolor")%>%
-      addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap)#%>%
-    # addCircleMarkers(data=points(),popup=popup_info())
-  })
-  
-})
+points <- geo_aussie_shiny[geo_aussie_shiny$sample_type == "Terrestrial Animals" &
+                             geo_aussie_shiny$sample_year == 2014, ]
+
+popup_info <- paste0("<b>Copper:</b>  ", 
+                     points$Cu, "<br/>",
+                     "<b>Arsenic:</b>  ",
+                     points$As, "<br/>",
+                     "<b>Mercury:</b>  ",
+                     points$Hg, "<br/>",
+                     "<b>Lead:</b>  ",
+                     points$Pb, "<br/>",
+                     "<b>Radionuclides:</b>  ", 
+                     points$radionuclides)
+
+
+leaflet()%>%
+  addProviderTiles("Stamen.Watercolor")%>%
+  addPolylines(data=river_map)%>%
+  addPolylines(data=river_mouthmap, fillColor = "#0000FF")%>%
+  addMarkers(data=points, ~Longitude, ~Latitude, popup=popup_info)
