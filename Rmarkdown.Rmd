@@ -15,7 +15,32 @@ knitr::opts_chunk$set(echo = TRUE)
     + How does the concentration of radionuclides and metals change with distance from the mine?
 
 ##Problem
-Have you made a convincing case that this is an important or interesting problem?You could meet this criterion even by convincing me that this is a problem that just one of you is passionate about (as an example, see here).
+The Alligator Rivers Region is a province in the wet-dry tropics of northeastern Australia. The land in this region is rich in uranium, and since 1980 has been home to a large mine: The Ranger Uranium mine. An Australian government entity called the Environmental Research Institute of the Supervising Scientist (ERISS) has consistently collected animal and environmental samples from the land around the mine and the Alligator Rivers Watershed, since mine activity began. The samples have been measured for many different mine contaminants including the heavy metals Cu, As, Pb, Hg, and the radionuclides U238, U234, Th230, Ra226, Pb210, Po210, Th232, Ra228, Th228, Ac227, K40.
+
+The location of the mine and the surrounding region is below. Locations of sample collection are indicated.
+
+```{r large map,fig.align='center', echo=FALSE, fig.width=4}
+library(png)
+library(grid)
+img <- readPNG("./Figures/map_large.png")
+ grid.raster(img)
+
+```
+
+Samples from both flora and fauna have been gathered by the ERISS. The specific sample types can be clustered based on their ecological niche and purpose in the watershed, to contain the following groups: water, fish, molluscs, freshwater animals, freshwater plants, freshwater sediment, terrestrial animals, terrestrial plants, terrestrial soil. The following map shows the location of these different sample types, within the watershed.
+
+```{r small map,fig.align='center', echo=FALSE, fig.width=4}
+library(png)
+library(grid)
+img <- readPNG("./Figures/map_small.png")
+ grid.raster(img)
+
+```
+
+This sample data set has been continually gathered by the ERISS to keep track of mine contaminants in the region over space and time. The data set was recently published in the [Journal of Environmental Radioactivity] (http://www.sciencedirect.com/science/article/pii/S0265931X16301928). 
+
+Attempting to answer the research questions above using this dataset is important for many reasons. One reason is to better understand the overall impacts of uranium mining on water and fauna, as 2/3 of the land in the region is aboriginally owned. Because of this ownership, there are concerns about the contamination of bush foods and also the contamination of flora for wild animal consumption. Lastly, analyzing this data can help us better understand the impacts of the mine on Kakadu National Park, as the other 1/3 of the region is park land. The site is to be remediated by 2026 and incorporated into Kakadu, so knowing how and where contaminants are located is central to this goal. 
+
 
 Are the data that you chose to use reasonable for answering the question? 
 Have you explained any caveats or limitations to the data that I should keep in mind when interpreting your results? As an example of how to do this for an analysis with secondary (imperfect) data, see how this post handles describing the data it uses, particularly in footnotes 1 and 3 and the sentences in the main text that correspond to them.
