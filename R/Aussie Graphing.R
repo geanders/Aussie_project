@@ -64,7 +64,7 @@ Mollusc_Rad_vs_Time <-mutate(Mollusc_Rad_vs_Time, sample_year = year(collection_
 Mollusc_Rad_vs_Time <-arrange(Mollusc_Rad_vs_Time, sample_year)
 Mollusc<-ggplot(data= Mollusc_Rad_vs_Time)+ 
   geom_point(aes(x = sample_year, y = radionuclides, color=Distance), alpha=.8)+
-  scale_fill_brewer()+ xlab("Sample Year")+ylab("Radionuclide Concentration (Bq/l)")+
-  ggtitle("Radionuclide Concentration \n in Molluscs vs. Time")
+  scale_fill_brewer(name="Distance (km)")+ xlab("Sample Year")+ylab("Radionuclide Concentration (Bq/kg)")+
+  ggtitle("Radionuclide Concentration \n in Molluscs vs. Time")+theme_bw()
 ggsave("./Figures/Mollusc.png", plot = Mollusc, width = 5, height = 5)
 
