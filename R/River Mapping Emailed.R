@@ -16,15 +16,12 @@ river_map<-rivershape[str_detect(rivershape@data$NAM, "ALLIGATOR"), ]
 rivermouthshape<-readShapeLines("River Data/AUS_water_areas_dcw.shp", proj4string=CRS("+proj=longlat"))
 river_mouthmap<-rivermouthshape[str_detect(rivermouthshape@data$NAM, "ALLIGATOR"), ]
 
-
-
-
-library(leaflet)
-  leaflet()%>%
-    addProviderTiles("Stamen.Watercolor")%>%
-  addPolylines(data=river_map)%>%
- addPolylines(data=river_mouthmap, fillColor = "#0000FF")%>%
-     addCircleMarkers(data=geo_data_ll, radius=.1)
+#library(leaflet)
+ # leaflet()%>%
+   # addProviderTiles("Stamen.Watercolor")%>%
+  #addPolylines(data=river_map)%>%
+# addPolylines(data=river_mouthmap, fillColor = "#0000FF")%>%
+    # addCircleMarkers(data=geo_data_ll, radius=.1)
   
 ###Convert to Data Frame (Takes a very long time)
 river<-tidy(rivershape)
@@ -46,7 +43,7 @@ save(river_mouthmap, file = "./shiny_app/river_mouthmap.Rdata")
 library(geosphere)
 
 # Preston's distance script sent on 11/30/16 via email
-Distance = vector(,nrow(geo_aussie_data))
+Distance <- vector(,nrow(geo_aussie_data))
 for(i in 1:nrow(geo_aussie_data)){
   Distance[i]=distm(c(geo_aussie_data$Longitude[i], geo_aussie_data$Latitude[i]), 
                     c( 132.9107,-12.6848), 
