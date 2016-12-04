@@ -52,7 +52,10 @@ img <- readPNG("./Figures/Rad_Close.png")
  grid.raster(img)
 
 ```
-words words words
+
+
+
+
 
 ```{r Heavy Metal, fig.align='center', echo=FALSE, fig.width=3}
 library(png)
