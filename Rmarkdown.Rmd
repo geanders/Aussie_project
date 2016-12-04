@@ -102,6 +102,6 @@ Is it clear what each is showing and how I should interpret it? (For a nice exam
 
 When I’m finished with your article, do I have more insight into your research question than when I started?
 ##Further Research
-
+While the dataset is quite robust in general, there are some limitations.  For example, there are very few samples of insects available.  For locations more than a few kilometers from the mine, there are not many repeat samples such that a time course could be studied.  Since the primary focus was environmental samples, there does not appear to have been a concerted effort conducted to study animals and their uptake of heavy metals and radionuclides.
 
 
