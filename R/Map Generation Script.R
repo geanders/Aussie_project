@@ -1,3 +1,13 @@
+library(tidyverse)
+library(lubridate)
+library(stringr)
+library(rgdal)
+library(sp)
+library(maptools)
+library(ggmap)
+library(sp)
+
+
 # Script for Map Generation
 # This script generates and saves two maps, map_large.png and map_small.png
 
@@ -29,5 +39,5 @@ map_small <- ggmap(northern_terr_zoomed, extent = "device") +
   scale_color_brewer(palette = "Set1", name = "Sample Substrate") +
   ggtitle("Sample Points by Substrate in the Vicinity of the Ranger Mine")
 
-ggsave("./Figures/map_large.png", plot = map_large, width = 5, height = 5)
-ggsave("./Figures/map_small.png", plot = map_small, width = 5, height = 5)
+ggsave("./Figures/map_large.png", plot = map_large, width = 7, height = 5)
+ggsave("./Figures/map_small.png", plot = map_small, width = 7, height = 5)
