@@ -27,9 +27,9 @@ shinyUI(fluidPage(
                             )),
                column(6, position = "right", 
                       tableOutput("check"),
-                   h4("Map of Alligator Rivers Sample Sites") #,
+                   h4("Map of Alligator Rivers Sample Sites"),
                   
-                    # leafletOutput("RiverMap")
+                    leafletOutput("RiverMap")
                    ))
                     
            ))
