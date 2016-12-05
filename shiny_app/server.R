@@ -43,14 +43,14 @@ shinyServer(function(input, output, session) {
   output$RiverMap <- renderLeaflet({
     leaflet(geo_aussie_shiny) %>%
       addProviderTiles("Stamen.Watercolor")%>%
-      setView(132.9107, -12.6848, zoom = 7) 
+      setView(132.9107, -12.6848, zoom = 7) %>% 
+      addPolylines(data=river_map)%>%
+      addPolylines(data=river_mouthmap) 
   })
 
   observeEvent(input$Substrate, {
     leafletProxy("RiverMap", data = filteredData()) %>%
       clearMarkers() %>%
-      addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap) %>%
       addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude, 
                  popup = popups())
   })
