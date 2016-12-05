@@ -22,8 +22,8 @@ geo_aussie_shiny <- geo_aussie_data %>%
 shinyServer(function(input, output, session) {
   
   filteredData <- reactive({
-    geo_aussie_shiny %>% filter(sample_type == input$Substrate & 
-                                  sample_year >= input$slider1) 
+    geo_aussie_shiny %>% filter(sample_type == input$Substrate &
+                                  sample_year >= input$slider1)
   })
   
   
@@ -41,17 +41,18 @@ shinyServer(function(input, output, session) {
   })
   
   output$RiverMap <- renderLeaflet({
-    leaflet(geo_aussie_shiny) %>% setView(132.9107, -12.6848, zoom = 7)
+    leaflet(geo_aussie_shiny) %>%
+      setView(132.9107, -12.6848, zoom = 7) 
   })
-  
+
   observeEvent(input$Substrate, {
     leafletProxy("RiverMap", data = filteredData()) %>%
       clearShapes() %>%
       addProviderTiles("Stamen.Watercolor")%>%
-      #addPolylines(data=river_map)%>%
-      #addPolylines(data=river_mouthmap) %>%
-      #addMarkers(data = filteredData(), popup = popups())
-      addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude)
+      addPolylines(data=river_map)%>%
+      addPolylines(data=river_mouthmap) %>%
+      addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude, 
+                 popup = popups())
   })
   
 })
