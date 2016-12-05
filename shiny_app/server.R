@@ -1,6 +1,7 @@
 library(shiny)
 library(leaflet)
 library(tidyverse)
+library(lubridate)
 
 load("geo_aussie_data.Rdata")
 load("river_map.Rdata")
@@ -21,13 +22,13 @@ geo_aussie_shiny <- geo_aussie_data %>%
 shinyServer(function(input, output, session) {
   
   filteredData <- reactive({
-    geo_aussie_shiny %>% filter(sample_type == input$Substrate & 
-                                  sample_year >= input$slider1) 
+    geo_aussie_shiny %>% filter(sample_type == input$Substrate &
+                                  sample_year >= input$slider1)
   })
   
   
   popups <- reactive({
-    popup_info <- paste0("<b>Copper:</b>  ", 
+    paste0("<b>Copper:</b>  ", 
                          filteredData()$Cu, "<br/>",
                          "<b>Arsenic:</b>  ",
                          filteredData()$As, "<br/>",
@@ -40,16 +41,21 @@ shinyServer(function(input, output, session) {
   })
   
   output$RiverMap <- renderLeaflet({
-    leaflet(geo_aussie_shiny) %>% setView(132.9107, -12.6848, zoom = 7)
-  })
-  
-  observeEvent(input$Substrate, {
-    leafletProxy("RiverMap", data = filteredData()) %>%
-      clearShapes() %>%
+    leaflet(geo_aussie_shiny) %>%
       addProviderTiles("Stamen.Watercolor")%>%
+      setView(132.9107, -12.6848, zoom = 7) %>% 
       addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap) %>%
-      addMarkers(data=filteredData(), popup = popups())
+      addPolylines(data=river_mouthmap) 
+  })
+
+  observeEvent({
+    input$Substrate
+    input$slider1
+    }, {
+    leafletProxy("RiverMap", data = filteredData()) %>%
+      clearMarkers() %>%
+      addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude, 
+                 popup = popups())
   })
   
 })
