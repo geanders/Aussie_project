@@ -23,7 +23,7 @@ shinyServer(function(input, output, session) {
   
   filteredData <- reactive({
     geo_aussie_shiny %>% filter(sample_type == input$Substrate &
-                                  sample_year >= input$slider1)
+                                  sample_year == input$slider1)
   })
   
   
@@ -43,7 +43,7 @@ shinyServer(function(input, output, session) {
   output$RiverMap <- renderLeaflet({
     leaflet(geo_aussie_shiny) %>%
       addProviderTiles("Stamen.Watercolor")%>%
-      setView(132.9107, -12.6848, zoom = 7) 
+      setView(132.9107, -12.6848, zoom = 7) %>%
       addPolylines(data=river_map)%>%
       addPolylines(data=river_mouthmap)
   })
