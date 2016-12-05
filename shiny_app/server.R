@@ -28,7 +28,7 @@ shinyServer(function(input, output, session) {
   
   
   popups <- reactive({
-    popup_info <- paste0("<b>Copper:</b>  ", 
+    paste0("<b>Copper:</b>  ", 
                          filteredData()$Cu, "<br/>",
                          "<b>Arsenic:</b>  ",
                          filteredData()$As, "<br/>",
@@ -48,9 +48,10 @@ shinyServer(function(input, output, session) {
     leafletProxy("RiverMap", data = filteredData()) %>%
       clearShapes() %>%
       addProviderTiles("Stamen.Watercolor")%>%
-      addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap) %>%
-      addMarkers(data=filteredData(), popup = popups())
+      #addPolylines(data=river_map)%>%
+      #addPolylines(data=river_mouthmap) %>%
+      #addMarkers(data = filteredData(), popup = popups())
+      addMarkers(data = filteredData())
   })
   
 })
