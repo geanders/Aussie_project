@@ -51,7 +51,7 @@ shinyServer(function(input, output, session) {
       #addPolylines(data=river_map)%>%
       #addPolylines(data=river_mouthmap) %>%
       #addMarkers(data = filteredData(), popup = popups())
-      addMarkers(data = filteredData())
+      addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude)
   })
   
 })
