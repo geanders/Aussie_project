@@ -66,3 +66,4 @@ leaflet()%>%
   addPolylines(data=river_map)%>%
   addPolylines(data=river_mouthmap, fillColor = "#0000FF")%>%
   addMarkers(data=points, ~Longitude, ~Latitude, popup=popup_info)
+

@@ -23,7 +23,7 @@ shinyServer(function(input, output, session) {
   
   filteredData <- reactive({
     geo_aussie_shiny %>% filter(sample_type == input$Substrate &
-                                  sample_year >= input$slider1)
+                                  sample_year == input$slider1)
   })
   
   
