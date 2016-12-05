@@ -12,23 +12,24 @@ shinyUI(fluidPage(
                       column(12, h4(em("Where and when do we see metals and radionuclides?"))),
                       column(6, selectInput("Substrate",
                              label = h5("Sample Type:"),
-                            choices = list("Terrestrial Animals" = "Choice 1", 
-                            "Terrestrial Plants" = "Choice 2",
-                            "Terrestrial Soil" = "Choice 3",
-                           "Freshwater Animals" = "Choice 4",
-                             "Fish" = "Choice 5",
-                              "Mollusc" = "Choice 6",
-                        "Freshwater Sediment" = "Choice 7",
-                            "Freshwater Plant" = "Choice 8",
-                             "Water" = "Choice 9"))),
+                            choices = list("Terrestrial Animals" = "Terrestrial Animals", 
+                            "Terrestrial Plants" = "Terrestrial Plants",
+                            "Terrestrial Soil" = "Terrestrial Soil",
+                           "Freshwater Animals" = "Freshwater Animals",
+                             "Fish" = "Fish",
+                              "Mollusc" = "Mollusc",
+                        "Freshwater Sediment" = "Freshwater Sediment",
+                            "Freshwater Plant" = "Freshwater Plant",
+                             "Water" = "Water"))),
                       column(6, sliderInput("slider1",
                                             label = h5("Year of Sampling:"),
                             min = 1976, max = 2015, value = 1, sep = ""))
                             )),
                column(6, position = "right", 
-                   h4("Map of Alligator Rivers Sample Sites"),
+                      tableOutput("check"),
+                   h4("Map of Alligator Rivers Sample Sites") #,
                   
-                    leafletOutput("RiverMap")
+                    # leafletOutput("RiverMap")
                    ))
                     
            ))
