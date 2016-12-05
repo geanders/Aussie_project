@@ -1,3 +1,5 @@
+library(leaflet)
+
 shinyUI(fluidPage(
   titlePanel("Australia's Ranger Uranium Mine: Measuring Heavy Metals and Radionuclide 
              Presence in the Alligator Rivers Region"),
@@ -26,7 +28,8 @@ shinyUI(fluidPage(
                column(6, position = "right", 
                    h4("Map of Alligator Rivers Sample Sites"),
                   
-                    leafletOutput("RiverMap")))
+                    leafletOutput("RiverMap")
+                   ))
                     
            ))
     
