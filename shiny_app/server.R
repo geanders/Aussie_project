@@ -48,7 +48,7 @@ shinyServer(function(input, output, session) {
 
   observeEvent(input$Substrate, {
     leafletProxy("RiverMap", data = filteredData()) %>%
-      clearShapes() %>%
+      clearMarkers() %>%
       addPolylines(data=river_map)%>%
       addPolylines(data=river_mouthmap) %>%
       addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude, 
