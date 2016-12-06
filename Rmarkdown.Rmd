@@ -1,6 +1,6 @@
 ---
 title: "Radionuclide and Heavy Metal Concentrations in Australian Riverways"
-author: "Preston Phillips"
+author: "Preston Phillips, Chloe Stenkamp-Strahm, Scott Braley"
 date: "December 4, 2016"
 output: word_document
 ---
@@ -15,13 +15,19 @@ knitr::opts_chunk$set(echo = TRUE)
     + How do the concentrations of radionuclides and metals change with distance from the mine?
 
 ##Problem
-The Alligator Rivers Region is a province in the wet-dry tropics of northeastern Australia. The land in this region is rich in uranium, and since 1980 has been home to a large mine: The Ranger Uranium mine. An Australian government entity called the Environmental Research Institute of the Supervising Scientist (ERISS) has been collecting animal and environmental samples from the land around the mine, and the Alligator Rivers Watershed, since mine activity began. The samples have been measured for many different mine contaminants including the heavy metals Cu, As, Pb, Hg, and the radionuclides ^234^U, ^238^U, ^230^Th, ^232^Th, ^226^Ra, ^228^Ra, ^210^Pb, ^210^Po, ^228^Th, ^227^Ac, and ^40^K.  All of these metals and radionuclides are naturally occurring, but may have been released during mining and milling at the mine.
+The Alligator Rivers Region is a province in the wet-dry tropics of northeastern Australia. The land in this region is rich in uranium, and since 1980 has been home to a large mine. [This is the Ranger Uranium mine](http://www.world-nuclear.org/information-library/country-profiles/countries-a-f/appendices/australia-s-uranium-mines.aspx#ranger):
+![Image of the Ranger Uranium Mine](RMDRanger2005.png)
+
+An Australian government entity called the [Environmental Research Institute of the Supervising Scientist](http://www.environment.gov.au/science/supervising-scientist) (ERISS) has been collecting animal and environmental samples from the land around the mine, in the general area of the Alligator Rivers Watershed and Kakadu National Park:
+![Image of watershed](australia_with_mine.png)
+
+These have been collected since mine activity began. The samples have been measured for many different mine contaminants including the heavy metals Copper (Cu), Arsenic (As), Lead (Pb), Mercury (Hg), and the radionuclides ^234^U, ^238^U, ^230^Th, ^232^Th, ^226^Ra, ^228^Ra, ^210^Pb, ^210^Po, ^228^Th, ^227^Ac, and ^40^K.  All of these metals and radionuclides are naturally occurring, but may have been released during mining and milling at the mine.
 
 Radionuclide information is measured using the SI unit of activity, the Becquerel (Bq).  This unit is defined as one radioactive decay or disintegration per second.
 
 The location of the mine and the surrounding region is show below. Locations of sample collection are indicated.
 
-```{r large map,fig.align='center', echo=FALSE, fig.width=4}
+```{r largemap,fig.align='center', echo=FALSE, fig.width=4}
 library(png)
 library(grid)
 img <- readPNG("./Figures/map_large.png")
@@ -31,7 +37,7 @@ img <- readPNG("./Figures/map_large.png")
 
 Samples from flora, fauna, and soil and water have been gathered by the ERISS. The specific sample types can be clustered based on their ecological niche and purpose in the watershed, to contain the following groups: water, fish, molluscs, freshwater animals, freshwater plants, freshwater sediment, terrestrial animals, terrestrial plants, and terrestrial soil. The following map shows the collection locations of these varying sample types, near the Ranger Mine.
 
-```{r small map,fig.align='center', echo=FALSE, fig.width=4}
+```{r smallmap,fig.align='center', echo=FALSE, fig.width=4}
 library(png)
 library(grid)
 img <- readPNG("./Figures/map_small.png")
@@ -69,7 +75,7 @@ The fluctuations in radionuclide content are most likely caused by naturally occ
 
 As water is fluid (PUN!) in this area, unlike the land or relatively static molluscs, we can look specifically at the content of radionuclides in the water samples taken over time.
 
-```{r Rad vs. Distance,echo=FALSE, fig.width=3, fig.align='center'}
+```{r Rad_vs._Distance,echo=FALSE, fig.width=3, fig.align='center'}
 library(png)
 library(grid)
 img <- readPNG("./Figures/Rad_Close.png")
@@ -80,7 +86,7 @@ img <- readPNG("./Figures/Rad_Close.png")
 As one can see, there is a slight downward trend in the amount of radionuclides in water samples as are taken farther and farther from the mine. The water samples represented in the graph above reflect those taken from all sampled years.  
 
 
-```{r Heavy Metal, fig.align='center', echo=FALSE, fig.width=3}
+```{r Heavy_Metal, fig.align='center', echo=FALSE, fig.width=3}
 library(png)
 library(grid)
 img <- readPNG("./Figures/Heavy_Metal.png")

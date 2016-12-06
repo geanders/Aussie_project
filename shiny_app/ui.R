@@ -1,13 +1,14 @@
 library(leaflet)
+library(shinythemes)
 
-shinyUI(fluidPage(
+shinyUI(fluidPage(theme=shinytheme("cyborg"),
   titlePanel("Australia's Ranger Uranium Mine: Measuring Heavy Metals and Radionuclide 
              Presence in the Alligator Rivers Region"),
            fluidRow(
              column(6,
                   img(src = "Ranger2005.jpg", height = 100, width = 375),
                   h6("Image of Ranger Treatment plant, with mine
-                       pit (source www.world-nuclear.org)"),
+                       pit", a("http://www.world-nuclear.org/information-library/country-profiles/countries-a-f/appendices/australia-s-uranium-mines.aspx")),
                     fluidRow(
                       column(12, h4(em("Where and when do we see metals and radionuclides?"))),
                       column(6, selectInput("Substrate",
