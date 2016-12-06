@@ -97,4 +97,4 @@ img <- readPNG("./Figures/Heavy_Metal.png")
 ##Further Research
 While the dataset is quite robust in general, there are some limitations.  For example, there are very few samples of insects available.  For locations more than a few kilometers from the mine, there are not many repeat samples such that a time course could be studied.  Since the primary focus was environmental samples, there does not appear to have been a concerted effort conducted to study animals and their uptake of heavy metals and radionuclides.
 
-
+Interestingly, the same group that published the initial data set recently published a short communication entitled '[A tool for calculating concentration ratios from large environmental data sets](https://www.ncbi.nlm.nih.gov/pubmed/27579895). This publication outlines a tool developed in MS Excel that predicts biological accumulation of mine contaminants, given their proximity to environmental samples with certain concentrations of both metals and radionuclides. We'd expect others to start analyzing this current data set in light of this newly developed tool, since these many environmental measures can now been linked to biological outcomes.
