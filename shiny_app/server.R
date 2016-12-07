@@ -38,15 +38,15 @@ shinyServer(function(input, output, session) {
   
   
   popups <- reactive({
-    paste0("<b>Copper:</b>  ", 
+    paste0("<b>Copper (mg/kg -1):</b>  ", 
                          filteredData()$Cu, "<br/>",
-                         "<b>Arsenic:</b>  ",
+                         "<b>Arsenic (mg/kg -1):</b>  ",
                          filteredData()$As, "<br/>",
-                         "<b>Mercury:</b>  ",
+                         "<b>Mercury (mg/kg -1):</b>  ",
                          filteredData()$Hg, "<br/>",
-                         "<b>Lead:</b>  ",
+                         "<b>Lead (mg/kg -1):</b>  ",
                          filteredData()$Pb, "<br/>",
-                         "<b>Radionuclides:</b>  ", 
+                         "<b>Radionuclides(Bq):</b>  ", 
                          filteredData()$radionuclides)
   })
   
