@@ -23,10 +23,20 @@ geo_aussie_shiny <- geo_aussie_data %>%
 
 shinyServer(function(input, output, session) {
   
+
   filteredData <- reactive({
-    geo_aussie_shiny %>% filter(sample_year == input$Substrate &
+    
+   if (input$Substrate == "All" & input$checkbox == TRUE) {
+     geo_aussie_shiny
+   } else if (input$Substrate == "All" & input$checkbox == FALSE) {
+      geo_aussie_shiny %>% filter(sample_year == input$slider1)
+   } else if (input$Substrate != "All" & input$checkbox == TRUE) {
+      geo_aussie_shiny %>% filter(sample_type == input$Substrate)
+   } else if (input$Substrate != "All" & input$checkbox == FALSE) {
+      geo_aussie_shiny %>% filter(sample_type == input$Substrate & 
                                   sample_year == input$slider1)
-      
+   }
+
      #ifelse(input$Substrate == "All", filter(sample_type == input$Substrate &
                                 #sample_year == input$slider1)
       

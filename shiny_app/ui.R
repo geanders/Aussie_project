@@ -14,7 +14,7 @@ shinyUI(fluidPage(theme=shinytheme("cyborg"),
                       column(12, h4(em("Where and when do we see metals and radionuclides?"))),
                       column(6, selectInput("Substrate",
                              label = h5("Sample Type:"),
-                            choices = list(#"sample_type" = "All",
+                            choices = list("All" = "All",
                               "Terrestrial Animals" = "Terrestrial Animals", 
                             "Terrestrial Plants" = "Terrestrial Plants",
                             "Terrestrial Soil" = "Terrestrial Soil",
@@ -24,12 +24,15 @@ shinyUI(fluidPage(theme=shinytheme("cyborg"),
                         "Freshwater Sediment" = "Freshwater Sediment",
                             "Freshwater Plant" = "Freshwater Plant",
                              "Water" = "Water"))),
+                      
                       column(6, sliderInput("slider1",
                                             label = h5("Year of Sampling:"),
                             min = 1976, max = 2015, value = 1
                             # value = c(1976, 2015)
-                            , sep = "", animate = TRUE))
-                            )),
+                            , sep = "", animate = TRUE), 
+                            checkboxInput("checkbox", label = "All Years", 
+                                          value = TRUE))
+                    )),
                column(6, position = "right", 
                       tableOutput("check"),
                    h4("Map of Alligator Rivers Sample Sites"),
