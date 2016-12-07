@@ -24,7 +24,16 @@ shinyServer(function(input, output, session) {
   
   filteredData <- reactive({
     geo_aussie_shiny %>% filter(sample_type == input$Substrate &
-                                  sample_year == input$slider1)
+                                sample_year == input$slider1)
+      #for(sample_type) {
+      #if(input$Substrate == "All"){sample_type = sample_type}
+  # else if(input$Substrate %in% c("Terrestrial Animals", "Terrestrial Plants", "Terrestrial Soil", 
+                                      #"Freshwater plant")){filter(sample_type == input$Substrate)} %>%
+    #} %>%
+   # filter(sample_year == input$slider1)
+    
+     
+      
   })
   
   
