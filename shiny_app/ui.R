@@ -25,7 +25,9 @@ shinyUI(fluidPage(theme=shinytheme("cyborg"),
                              "Water" = "Water"))),
                       column(6, sliderInput("slider1",
                                             label = h5("Year of Sampling:"),
-                            min = 1976, max = 2015, value = 1, sep = ""))
+                            min = 1976, max = 2015, value = 1
+                            # value = c(1976, 2015)
+                            , sep = "", animate = TRUE))
                             )),
                column(6, position = "right", 
                       tableOutput("check"),
