@@ -7,6 +7,7 @@ library(shinythemes)
 load("geo_aussie_data.Rdata")
 load("river_map.Rdata")
 load("river_mouthmap.Rdata")
+load("rangerpoint.Rdata")
 
 geo_aussie_shiny <- geo_aussie_data %>% 
   mutate(sample_year = year(collection_date)) %>%
@@ -23,10 +24,13 @@ geo_aussie_shiny <- geo_aussie_data %>%
 shinyServer(function(input, output, session) {
   
   filteredData <- reactive({
-    geo_aussie_shiny %>% filter(sample_type == input$Substrate &
-                                sample_year == input$slider1)
-      #for(i in input$Substrate) {
-      #if(i == "All"){filter(sample_type == sample_type)}
+    geo_aussie_shiny %>% filter(sample_year == input$Substrate &
+                                  sample_year == input$slider1)
+      
+     #ifelse(input$Substrate == "All", filter(sample_type == input$Substrate &
+                                #sample_year == input$slider1)
+      
+      #if(i == "All"){}
   #else if(i %in% c("Terrestrial Animals", "Terrestrial Plants", "Terrestrial Soil", 
    #                                   "Freshwater plant")){filter(sample_type == i)}} %>%
     
@@ -54,8 +58,10 @@ shinyServer(function(input, output, session) {
     leaflet(geo_aussie_shiny) %>%
       addProviderTiles("Stamen.Watercolor")%>%
       setView(132.9107, -12.6848, zoom = 7) %>%
+      
       addPolylines(data=river_map)%>%
-      addPolylines(data=river_mouthmap)
+      addPolylines(data=river_mouthmap) %>%
+      addCircles(data = rangerpoint, fillColor = "red", fillOpacity = 1)
   })
 
   observeEvent({
@@ -64,8 +70,10 @@ shinyServer(function(input, output, session) {
     }, {
     leafletProxy("RiverMap", data = filteredData()) %>%
       clearMarkers() %>%
+        addCircles(popup=rangerpoint) %>%
       addMarkers(data = filteredData(), lat = ~ Latitude, lng = ~ Longitude, 
                  popup = popups())
+      
   })
   
 })

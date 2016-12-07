@@ -10,6 +10,7 @@ shinyUI(fluidPage(theme=shinytheme("cyborg"),
                   h6("Image of Ranger Treatment plant, with mine
                        pit", a("http://www.world-nuclear.org/information-library/country-profiles/countries-a-f/appendices/australia-s-uranium-mines.aspx")),
                     fluidRow(
+                      column(12, h6("The Ranger Uranium mine has been operational since 1980 and blah blah bla")),
                       column(12, h4(em("Where and when do we see metals and radionuclides?"))),
                       column(6, selectInput("Substrate",
                              label = h5("Sample Type:"),
