@@ -10,7 +10,12 @@ shinyUI(fluidPage(theme=shinytheme("cyborg"),
                   h6("Image of Ranger Treatment plant, with mine
                        pit", a("http://www.world-nuclear.org/information-library/country-profiles/countries-a-f/appendices/australia-s-uranium-mines.aspx")),
                     fluidRow(
-                      column(12, h6("The Ranger Uranium mine has been operational since 1980 and blah blah bla")),
+                      column(12, h6("The Ranger Uranium mine has been operational since 1980; in an article
+                                    published in the Journal of Environmental Radioactivity 162-163 (2016),
+                                    over 30 years of sampling data was made available for analysis.  In this
+                                    app, you can select the sample media and year to view
+                                    data collected on Copper, Lead, Mercury, Arsenic, and 
+                                    total radionuclides displayed on the map to the right.")),
                       column(12, h4(em("Where and when do we see metals and radionuclides?"))),
                       column(6, selectInput("Substrate",
                              label = h5("Sample Type:"),
