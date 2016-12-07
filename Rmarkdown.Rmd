@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE,
                       warning = FALSE, dpi = 600)
 ```
 
-```{r initial data cleanup, include=FALSE, echo=FALSE}
+```{r initial_data_cleanup, include=FALSE, echo=FALSE}
 ## this is the code for cleaning the data set
 library(tidyverse)
 library(lubridate)
@@ -189,7 +189,7 @@ geo_data_53_ll <- dplyr::rename(geo_data_53_ll,
 geo_data_ll <- rbind(geo_data_52_ll, geo_data_53_ll)
 geo_aussie_data <- left_join(geo_data_ll, clean_aussie_data, by = "entry_num")
 #
-# the final clean dataset herre is geo_aussie_data
+# the final clean dataset here is geo_aussie_data
 ```
 
 ## Research Questions:
@@ -210,7 +210,7 @@ Radionuclide information is measured using the SI unit of activity, the Becquere
 
 The location of the mine and the surrounding region is show below. Locations of sample collection are indicated.
 
-```{r largemap,fig.align='center', echo=FALSE, fig.width=4, dpi=600}
+```{r largemap, fig.align = 'center', echo = FALSE, fig.width = 4, dpi = 600}
 
 northern_terr <- get_map("Jabiru", zoom = 7,
                      source = "google", maptype = "hybrid")
@@ -229,7 +229,7 @@ map_large
 
 Samples from flora, fauna, and soil and water have been gathered by the ERISS. The specific sample types can be clustered based on their ecological niche and purpose in the watershed, to contain the following groups: water, fish, molluscs, freshwater animals, freshwater plants, freshwater sediment, terrestrial animals, terrestrial plants, and terrestrial soil. The following map shows the collection locations of these varying sample types, near the Ranger Mine.
 
-```{r smallmap,fig.align='center', echo=FALSE, fig.width=4, dpi=600}
+```{r smallmap, fig.align = 'center', echo = FALSE, fig.width = 7, dpi = 600}
 northern_terr_zoomed <- get_map("Jabiru", zoom = 9,
                          source = "google", maptype = "hybrid")
 ranger_location <- tibble(long = 132.9107, lat = -12.6848)
@@ -248,7 +248,6 @@ map_small <- ggmap(northern_terr_zoomed, extent = "device") +
         legend.title = element_text(size = 8),
         legend.text = element_text(size = 7))
 map_small
-
 ```
 
 This dataset of environmental samples has been continually gathered by the ERISS to keep track of mine contaminants in the region over space and time. The dataset was recently published in the [Journal of Environmental Radioactivity](http://www.sciencedirect.com/science/article/pii/S0265931X16301928). 
@@ -264,15 +263,41 @@ A number of sample results were reported as below detection limits, in the form 
 
 
 ##Results
+```{r plotting_prep}
+library(broom)
+library(foreign)
+library(leaflet)
+library(geosphere)
+
+# Preston's distance script 
+# straight-line distance from the mine at (132.9107, -12.6848)
+Distance <- vector(, nrow(geo_aussie_data))
+for(i in 1:nrow(geo_aussie_data)){
+  Distance[i] = distm(c(geo_aussie_data$Longitude[i], 
+                        geo_aussie_data$Latitude[i]), 
+                        c( 132.9107,-12.6848), fun = distHaversine)
+}
+geo_aussie_data<-mutate(geo_aussie_data, Distance = Distance)
+```
 
 Below are the results for the radionuclide concentration (Bq/Kg) in Molluscs as a function of the year sampled. The color of each point is scaled by it's proximity to the mine. 
 
-```{r Mollusc,fig.align='center', echo=FALSE, fig.width=4}
-library(png)
-library(grid)
-img <- readPNG("./Figures/Mollusc.png")
- grid.raster(img)
+```{r Mollusc,fig.align='center', echo=FALSE, fig.width=7, dpi=600}
+###Mollusc Concentration of Radionuclides over time
+Mollusc_Rad_vs_Time <- filter(geo_aussie_data, sample_type == "Mollusc")
+Mollusc_Rad_vs_Time <- mutate(Mollusc_Rad_vs_Time, 
+                              sample_year = year(collection_date))
+Mollusc_Rad_vs_Time <- arrange(Mollusc_Rad_vs_Time, sample_year)
+Mollusc <- ggplot(data = Mollusc_Rad_vs_Time) + 
+  geom_point(aes(x = sample_year, y = radionuclides, color = Distance/1000),
+             alpha=.8) +
+  scale_fill_brewer() +
+  xlab("Sample Year") + ylab("Radionuclide Concentration (Bq/kg)") +
+  ggtitle("Radionuclide Concentration \n in Molluscs vs. Time") + 
+  labs(color = "Distance (km)") +
+  theme_bw()
 
+Mollusc
 ```
 
 If the presence of the mine had a direct impact on the radionuclide concentrations in the environment, one would expect to see concentrations of radionuclides increase over time, from the point before the mine was established to after. However, there is no apparent data to indicate an upward trend in radionuclide concentration over time, nor does the radionuclide concentration seem to depend on distance for a particular year. 
@@ -281,24 +306,45 @@ The fluctuations in radionuclide content are most likely caused by naturally occ
 
 As water is fluid (PUN!) in this area, unlike the land or relatively static molluscs, we can look specifically at the content of radionuclides in the water samples taken over time.
 
-```{r Rad_vs._Distance,echo=FALSE, fig.width=3, fig.align='center'}
-library(png)
-library(grid)
-img <- readPNG("./Figures/Rad_Close.png")
- grid.raster(img)
-
+```{r Rad_vs._Distance,echo=FALSE, fig.width=7, fig.align='center'}
+##Water Radiation Concentration as a function of distance (7,000m)
+Water_Rad_vs_Dis <- arrange(geo_aussie_data, Distance)
+Water_Rad_vs_Dis <- filter(geo_aussie_data, Distance < 10000)
+Water_Rad_vs_Dis <- filter(Water_Rad_vs_Dis, sample_type == "Water")
+Rad_Close <- ggplot(data = Water_Rad_vs_Dis, aes(x = (Distance/1000),
+                                                 y = radionuclides)) + 
+  geom_point(color = "blue", alpha = .8) +
+  xlab("Distance (kilometers)") + 
+  ylab("Radionuclide Concentration (Bq/l)") + 
+  xlim(0,7) +
+  ggtitle("Radionuclide Concentration \n in Water vs. Distance")
+Rad_Close
 ```
 
 As one can see, there is a slight downward trend in the amount of radionuclides in water samples as are taken farther and farther from the mine. The water samples represented in the graph above reflect those taken from all sampled years.  
 
 
-```{r Heavy_Metal, fig.align='center', echo=FALSE, fig.width=3}
-library(png)
-library(grid)
-img <- readPNG("./Figures/Heavy_Metal.png")
- grid.raster(img)
+```{r Heavy_Metal, fig.align='center', echo=FALSE, fig.width=7}
+### Sediment Heavy Metal Concentration
+Sed_Met_vs_Dis <- arrange(geo_aussie_data, Distance)
+Sed_Met_vs_Dis <- filter(Sed_Met_vs_Dis, sample_type == "Freshwater Sediment")
+Sed_Met_vs_Dis <- filter(geo_aussie_data, Distance < 10000)
+Heavy_Metal <- ggplot(data = Sed_Met_vs_Dis) + 
+  geom_point(aes(x = Distance/1000, y = Pb, color = "Pb"))+
+  geom_point(aes(x = Distance/1000, y = Cu, color = "Cu"))+
+  geom_point(aes(x = Distance/1000, y = As, color = "As"))+
+  geom_point(aes(x = Distance/1000, y = Hg, color = "Hg"))+
+  xlab("Distance (kilometers)") +
+  ylab("Heavy Metal Concentration (mg/l)") +
+  ggtitle("Metal Concentration \n in Water vs. Distance") +
+  scale_colour_manual(name = 'Heavy Metal', 
+          values = c('Pb'='green','Cu'='red','As'='black','Hg'='blue'),
+          labels=c('Pb','Cu','As','Hg'))
 
+Heavy_Metal
 ```
+
+The figure above shows metal concentrations in water samples as a function of distance from the mine.  Both copper and lead show a potentially significant correlation with distance; mercury may as well.  This figure also shows one side effect of our decision to treat results below the limits of detection as results equal to the limit of detection; a common detection threshold for lead was ~25 mg/l.
 
 ##Further Research
 While the dataset is quite robust in general, there are some limitations.  For example, there are very few samples of insects available.  For locations more than a few kilometers from the mine, there are not many repeat samples such that a time course could be studied.  Since the primary focus was environmental samples, there does not appear to have been a concerted effort conducted to study animals and their uptake of heavy metals and radionuclides.
