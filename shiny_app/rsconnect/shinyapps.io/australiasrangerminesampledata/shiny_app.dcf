@@ -1,0 +1,9 @@
+name: shiny_app
+account: australiasrangerminesampledata
+server: shinyapps.io
+appId: 144290
+bundleId: 645591
+url: https://australiasrangerminesampledata.shinyapps.io/shiny_app/
+when: 1481563685.82039
+asMultiple: FALSE
+asStatic: FALSE

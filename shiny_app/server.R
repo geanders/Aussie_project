@@ -68,10 +68,9 @@ shinyServer(function(input, output, session) {
     leaflet(geo_aussie_shiny) %>%
       addProviderTiles("Stamen.Watercolor")%>%
       setView(132.9107, -12.6848, zoom = 7) %>%
-      
       addPolylines(data=river_map)%>%
       addPolylines(data=river_mouthmap) %>%
-      addCircles(data = rangerpoint, fillColor = "red", fillOpacity = 1)
+      addCircles(data = rangerpoint, color = "violetred1",  fillColor = "red", fillOpacity = 1)
   })
 
   observeEvent({
