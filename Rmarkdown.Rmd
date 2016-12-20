@@ -5,21 +5,16 @@ date: "December 4, 2016"
 output: word_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, 
                       warning = FALSE, dpi = 600)
-```
 
-```{r initial_data_cleanup, include=FALSE, echo=FALSE}
-## this is the code for cleaning the data set
 library(tidyverse)
 library(lubridate)
-library(stringr)
-library(rgdal)
-library(sp)
-library(maptools)
 library(ggmap)
-library(sp)
+library(broom)
+library(foreign)
+library(geosphere)
 
 # guess_max set because otherwise R sets up the variables incorrectly
 aussie_data <- read_csv("data_raw/mmc1.csv", guess_max = 5000)
@@ -264,11 +259,6 @@ A number of sample results were reported as below detection limits, in the form 
 
 ##Results
 ```{r plotting_prep}
-library(broom)
-library(foreign)
-library(leaflet)
-library(geosphere)
-
 # Preston's distance script 
 # straight-line distance from the mine at (132.9107, -12.6848)
 Distance <- vector(, nrow(geo_aussie_data))
