@@ -199,10 +199,10 @@ geo_aussie_data <- left_join(geo_data_ll, clean_aussie_data, by = "entry_num")
 
 ##Problem
 The Alligator Rivers Region is a province in the wet-dry tropics of northeastern Australia. The land in this region is rich in uranium, and since 1980 has been home to a large mine. [This is the Ranger Uranium mine](http://www.world-nuclear.org/information-library/country-profiles/countries-a-f/appendices/australia-s-uranium-mines.aspx#ranger):
-![Image of the Ranger Uranium Mine](RMDRanger2005.png)
+![Image of the Ranger Uranium Mine](images/RMDRanger2005.png)
 
 An Australian government entity called the [Environmental Research Institute of the Supervising Scientist](http://www.environment.gov.au/science/supervising-scientist) (ERISS) has been collecting animal and environmental samples from the land around the mine, in the general area of the Alligator Rivers Watershed and Kakadu National Park:
-![Image of watershed](australia_with_mine.png)
+![Image of watershed](images/australia_with_mine.png)
 
 These have been collected since mine activity began. The samples have been measured for many different mine contaminants including the heavy metals Copper (Cu), Arsenic (As), Lead (Pb), Mercury (Hg), isotopes of Uranium (U), Thorium (Th), Radium (Ra), Polonium (Po), Actinium (Ac), and Potassium (K) - specifically ^234^U, ^238^U, ^230^Th, ^232^Th, ^226^Ra, ^228^Ra, ^210^Pb, ^210^Po, ^228^Th, ^227^Ac, and ^40^K.  All of these metals and radionuclides are naturally occurring, but may have been released during mining and milling at the mine.
 
