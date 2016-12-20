@@ -63,26 +63,26 @@ map_large
 
 Samples from flora, fauna, and soil and water have been gathered by the ERISS. The specific sample types can be clustered based on their ecological niche and purpose in the watershed, to contain the following groups: water, fish, molluscs, freshwater animals, freshwater plants, freshwater sediment, terrestrial animals, terrestrial plants, and terrestrial soil. The following map shows the collection locations of these varying sample types, near the Ranger Mine.
 
-```{r smallmap, fig.align = 'center', echo = FALSE, fig.width = 7, dpi = 600}
+```{r smallmap, fig.align = 'center', echo = FALSE, fig.width = 10, dpi = 600}
 northern_terr_zoomed <- get_map("Jabiru", zoom = 9,
                          source = "google", maptype = "hybrid", color = "bw")
 ranger_location <- tibble(long = 132.9107, lat = -12.6848)
 temp_data <- filter(geo_aussie_data, !(sample_type=="NA"))
 map_small <- ggmap(northern_terr_zoomed, extent = "device") +
-  geom_point(data = temp_data, aes(x = Longitude, y = Latitude, 
-             fill = sample_type), 
-             color = "black", size = .7, position = "jitter",
-             shape = 21)+
+  geom_point(data = temp_data, aes(x = Longitude, y = Latitude), 
+             size = .9, position = "jitter", fill = "red",
+             color = "black", shape = 21)+
   geom_point(data = ranger_location, aes(x = long, y = lat), 
-             size = 3, color = "White", shape = 18) +
+             size = 1.8, color = "White", shape = 18) +
   geom_text(data = ranger_location, aes(x = long, y = lat, 
              label = "Ranger Mine"),
-            colour = "white", size = 4, hjust = 1, vjust = 1) +
+            colour = "white", size = 1.8, hjust = 1, vjust = 1) +
   scale_color_brewer(palette = "Spectral", name = "Sample Substrate" ) +
   ggtitle("Sample Points by Substrate \nin the Vicinity of the Ranger Mine") +
   theme(plot.title = element_text(size = 8), 
         legend.title = element_text(size = 8),
-        legend.text = element_text(size = 7))
+        legend.text = element_text(size = 7)) + 
+  facet_wrap(~ sample_type)
 map_small
 ```
 
