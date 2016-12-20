@@ -58,7 +58,7 @@ As one can see, there is a slight downward trend in the amount of radionuclides 
 
 <img src="README-Heavy_Metal-1.png" style="display: block; margin: auto;" />
 
-The figure above shows metal concentrations in water samples as a function of distance from the mine. Both copper and lead show a potentially significant correlation with distance; mercury may as well. This figure also shows one side effect of our decision to treat results below the limits of detection as results equal to the limit of detection; a common detection threshold for lead was ~25 mg/l.
+The figure above shows metal concentrations in samples as a function of distance from the mine. Both copper and lead show a potentially significant correlation with distance; mercury may as well. This figure also shows one side effect of our decision to treat results below the limits of detection as results equal to the limit of detection; a common detection threshold for lead was ~25 mg/l.
 
 Further Research
 ----------------

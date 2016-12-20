@@ -156,26 +156,22 @@ As one can see, there is a slight downward trend in the amount of radionuclides 
 
 
 ```{r Heavy_Metal, fig.align='center', echo=FALSE, fig.width=7}
-### Sediment Heavy Metal Concentration
-Sed_Met_vs_Dis <- arrange(geo_aussie_data, Distance)
-Sed_Met_vs_Dis <- filter(Sed_Met_vs_Dis, sample_type == "Freshwater Sediment")
-Sed_Met_vs_Dis <- filter(geo_aussie_data, Distance < 10000)
-Heavy_Metal <- ggplot(data = Sed_Met_vs_Dis) + 
-  geom_point(aes(x = Distance/1000, y = Pb, color = "Pb"))+
-  geom_point(aes(x = Distance/1000, y = Cu, color = "Cu"))+
-  geom_point(aes(x = Distance/1000, y = As, color = "As"))+
-  geom_point(aes(x = Distance/1000, y = Hg, color = "Hg"))+
+geo_aussie_data %>%
+  # dplyr::filter(sample_type == "Water") %>%
+  dplyr::filter(Distance < 10000) %>%
+  dplyr::select(Distance, Pb, Cu, As, Hg) %>%
+  tidyr::gather(key = metal, value = conc, -Distance) %>%
+  ggplot(aes(x = Distance / 1000, y = conc)) + 
+  geom_point(alpha = 0.4, size = 1) +
+  geom_smooth(method = "loess", span = 0.8) + 
   xlab("Distance (kilometers)") +
   ylab("Heavy Metal Concentration (mg/l)") +
-  ggtitle("Metal Concentration \n in Water vs. Distance") +
-  scale_colour_manual(name = 'Heavy Metal', 
-          values = c('Pb'='green','Cu'='red','As'='black','Hg'='blue'),
-          labels=c('Pb','Cu','As','Hg'))
-
-Heavy_Metal
+  ggtitle("Metal Concentration \n in Samples vs. Distance") + 
+  facet_wrap(~ metal, scales = "free_y") + 
+  theme_classic()
 ```
 
-The figure above shows metal concentrations in water samples as a function of distance from the mine.  Both copper and lead show a potentially significant correlation with distance; mercury may as well.  This figure also shows one side effect of our decision to treat results below the limits of detection as results equal to the limit of detection; a common detection threshold for lead was ~25 mg/l.
+The figure above shows metal concentrations in samples as a function of distance from the mine.  Both copper and lead show a potentially significant correlation with distance; mercury may as well.  This figure also shows one side effect of our decision to treat results below the limits of detection as results equal to the limit of detection; a common detection threshold for lead was ~25 mg/l.
 
 ##Further Research
 While the dataset is quite robust in general, there are some limitations.  For example, there are very few samples of insects available.  For locations more than a few kilometers from the mine, there are not many repeat samples such that a time course could be studied.  Since the primary focus was environmental samples, there does not appear to have been a concerted effort conducted to study animals and their uptake of heavy metals and radionuclides.
