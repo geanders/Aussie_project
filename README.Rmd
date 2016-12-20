@@ -51,7 +51,8 @@ ranger_location <- tibble(long = 132.9107, lat = -12.6848)
 temp_data <- filter(geo_aussie_data, !(sample_type=="NA"))
 map_large <- ggmap(northern_terr, extent = "device") +
     geom_point(data = temp_data, aes(x = Longitude, y = Latitude), 
-             size = .5, color = "red")+
+             size = .5, fill = "red", color = "black", shape = 21,
+             alpha = 0.25)+
     geom_point(data = ranger_location, aes(x = long, y = lat), 
                size = 1.5, color = "green") +
     geom_text(data = ranger_location, aes(x = long, y = lat,label = "Ranger Mine"),
